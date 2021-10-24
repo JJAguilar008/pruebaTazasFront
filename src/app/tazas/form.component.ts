@@ -68,7 +68,6 @@ export class FormComponent implements OnInit {
 
   seleccionarTazaR(taza1: Taza){
     this.taza1 = taza1;
-    console.log(this.taza1);
   }
 
   egresoTaza() {
