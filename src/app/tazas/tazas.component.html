@@ -5,32 +5,34 @@
       <div class="my-2 text-left">
           <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/tazas/form']">Agregar taza</button>
       </div>
-      <table class="table table-bordered table-striped">
+      <div class="alert alert-danger" *ngIf="tazas.length == 0">
+        No hay registros en las base de datos
+      </div>
+
+      <table class="table table-bordered table-striped" *ngIf="tazas.length > 0">
           <thead>
               <tr>
-                  <th>Id</th>
                   <th>Modelo</th>
                   <th>Calidad</th>
                   <th>Capacidad</th>
                   <th>Color</th>
                   <th>Material</th>
                   <th>Cantidad</th>
-                  <th>Agregar stock</th>
+                  <th>Stock</th>
                   <th>Eliminar</th>
               </tr>
           </thead>
           <tbody>
               <tr *ngFor="let taza of tazas">
-                  <td>{{ taza.idTaza }}</td>
                   <td>{{ taza.modelo }}</td>
                   <td>{{ taza.calidad }}</td>
-                  <td>{{ taza.capacidad }}</td>
+                  <td>{{ taza.capacidad }} ml.</td>
                   <td>{{ taza.color }}</td>
                   <td>{{ taza.material }}</td>
-                  <td>{{ taza.cantidad }}</td>
-                  <td><button type="button" name="agragar" [routerLink]="['/tazas/form', taza.idTaza]" class="btn btn-primary btn-sm">Agregar</button></td>
-                  <td><button type="button" name="eliminar" (click)="delete(taza)" class="btn btn-danger btn-sm">Eliminar</button></td>
+                  <td>{{ taza.cantidad }} pzs.</td>
+                  <td><button type="button" name="agragar" [routerLink]="['/tazas/form', taza.idTaza]" class="btn btn-primary btn-sm" style="display: block; margin: 0 auto;">Modificar</button></td>
+                  <td><button type="button" name="eliminar" (click)="delete(taza)" class="btn btn-danger btn-sm" style="display: block; margin: 0 auto;">Eliminar</button></td>
               </tr>
-          </tbody>
+            </tbody>
       </table>
     </div>

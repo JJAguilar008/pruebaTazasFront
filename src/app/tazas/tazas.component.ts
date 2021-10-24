@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class TazasComponent implements OnInit {
 
-  tazas!: Taza[];
+  tazas: Taza[] = [];
 
   constructor(private tazaService: TazaService) { }
 
@@ -21,7 +21,7 @@ export class TazasComponent implements OnInit {
   delete(taza: Taza): void{
     Swal.fire({
       title: 'Seguro que desea eliminar?',
-      text: `Se eliminara el registro con id: ${taza.idTaza}`,
+      text: `Se eliminara el registro con id: ${taza.modelo}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -35,7 +35,7 @@ export class TazasComponent implements OnInit {
             this.tazas = this.tazas.filter(taz => taz !== taza)
             Swal.fire(
               'Registro eliminado!',
-              'Se ha eliminado el registro:' + taza.idTaza,
+              'Se ha eliminado el registro:' + taza.modelo,
               'success'
             )
         })

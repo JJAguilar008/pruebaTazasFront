@@ -6,58 +6,128 @@
             <button class="btn btn-secondary" role="button" [routerLink]="['/tazas']">Regresar</button>
         </div>
 
-        <form>
+        <form *ngIf="!taza.idTaza else elseBlock">
             <div class="form-group row">
-                <label for="modelo" class="col-form-label col-sm-2">Modelo</label>
+                <label for="modelo" class="col-form-label col-sm-2 my-2">Modelo</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" [(ngModel)]="taza.modelo" name="modelo">
+                    <input type="text" class="form-control" [(ngModel)]="taza.modelo" name="modelo" required #modelo="ngModel">
+                    <div class="alert alert-danger" *ngIf="modelo.invalid && (modelo.dirty || modelo.touched)">
+                        El modelo es un campo obligatorio
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="calidad" class="col-form-label col-sm-2">Calidad</label>
+                <label for="calidad" class="col-form-label col-sm-2 my-2">Calidad</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" [(ngModel)]="taza.calidad" name="calidad">
+                    <select class="form-control" [(ngModel)]="taza.calidad" name="calidad" style="width: 100%">
+                        <option ngValue="Alta">Alta</option>
+                        <option ngValue="Baja">Baja</option>
+                    </select>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="capacidad" class="col-form-label col-sm-2">Capacidad</label>
+                <label for="capacidad" class="col-form-label col-sm-2 my-2">Capacidad</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" [(ngModel)]="taza.capacidad" name="capacidad">
+                    <input type="text" class="form-control" [(ngModel)]="taza.capacidad" name="capacidad" required #capacidad="ngModel">
+                    <div class="alert alert-danger" *ngIf="capacidad.invalid && (capacidad.dirty || capacidad.touched)">
+                        La capacidad es un campo obligatorio
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="color" class="col-form-label col-sm-2">Color</label>
+                <label for="color" class="col-form-label col-sm-2 my-2">Color</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" [(ngModel)]="taza.color" name="color">
+                    <input type="text" class="form-control" [(ngModel)]="taza.color" name="color" required #color="ngModel">
+                    <div class="alert alert-danger" *ngIf="color.invalid && (color.dirty || color.touched)">
+                        El color es un campo obligatorio
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="material" class="col-form-label col-sm-2">Material</label>
+                <label for="material" class="col-form-label col-sm-2 my-2">Material</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" [(ngModel)]="taza.material" name="material">
+                    <input type="text" class="form-control" [(ngModel)]="taza.material" name="material" required #material="ngModel">
+                    <div class="alert alert-danger" *ngIf="material.invalid && (material.dirty || material.touched)">
+                        El material es un campo obligatorio
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="cantidad" class="col-form-label col-sm-2">Cantidad</label>
+                <label for="cantidad" class="col-form-label col-sm-2 my-2">Cantidad</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" [(ngModel)]="taza.cantidad" name="cantidad">
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-sm-6">
-                    <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!taza.idTaza else elseBlock">Agregar</button>
+                <div class="col-sm-6 my-2">
+                    <button class="btn btn-primary" role="button" (click)="create()">Agregar</button>
 
-                    <ng-template #elseBlock>
-                    <button class="btn btn-primary" role="button" (click)="update()">Actualizar</button>
-                    </ng-template>
+
                 </div>
             </div>
         </form>
+
+        <ng-template #elseBlock>
+            <form>
+                <div class="form-group row">
+                    <label for="modelo" class="col-form-label col-sm-2 my-2">Modelo</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" [(ngModel)]="taza.modelo" name="modelo" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="cantidad" class="col-form-label col-sm-2 my-2">Restante</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" [(ngModel)]="taza.cantidad" name="cantidad" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group" style="float: left;">
+                    <label for="cantidad" class="col-form-label my-2">Cantidad a extraer</label>
+                    <input type="number" class="form-control" [(ngModel)]="tazasExtraer" name="cantidadExtraer">
+                    <button class="btn btn-primary my-2" role="button" (click)="egresoTaza()">Extraer</button>
+                </div>
+
+                <div class="form-group" style="float: right;">
+                    <label for="cantidad" class="col-form-label my-2">Cantidad a ingresar</label>
+                    <input type="number" class="form-control" [(ngModel)]="tazasIngresar" name="cantidadIngresar">
+                    <button class="btn btn-primary my-2" role="button" (click)="ingresoTaza()">Ingresar</button>
+                </div>
+            </form>
+
+            <table class="table table-bordered text-white my-3" style="float: left; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th>Calidad</th>
+                        <th>Capacidad</th>
+                        <th>Color</th>
+                        <th>Material</th>
+                        <th>Cantidad</th>
+                        <th>Regalo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let taza of tazasBajas">
+                        <td>{{ taza.modelo }}</td>
+                        <td>{{ taza.calidad }}</td>
+                        <td>{{ taza.capacidad }} ml.</td>
+                        <td>{{ taza.color }}</td>
+                        <td>{{ taza.material }}</td>
+                        <td>{{ taza.cantidad }} pzs.</td>
+                        <td><button type="button" name="regalo" class="btn btn-primary btn-sm"
+                                style="display: block; margin: 0 auto;"
+                                (click)="seleccionarTazaR(taza)">Seleccionar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
     </div>
 </div>
